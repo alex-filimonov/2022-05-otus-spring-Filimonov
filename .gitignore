@@ -1,1 +1,2 @@
-spring-01/.idea/
+*/.idea/
+*/target
