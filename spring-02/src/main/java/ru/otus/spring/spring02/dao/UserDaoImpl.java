@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 @Service
 public class UserDaoImpl implements UserDao {
-
-    public User create(String name){
-        return new User(name,new ArrayList<>());
+    public User create(String name) {
+        return new User(name, new ArrayList<>());
     }
 }

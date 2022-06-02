@@ -5,7 +5,8 @@ public enum ExamResult {
     UNKNOWN("unknown"),
     NOT_PASS("did not pass");
     private String name;
-    ExamResult(String name){
-        this.name=name;
+
+    ExamResult(String name) {
+        this.name = name;
     }
 }

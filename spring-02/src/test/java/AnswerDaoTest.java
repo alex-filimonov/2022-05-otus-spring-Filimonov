@@ -15,6 +15,7 @@ public class AnswerDaoTest {
         Answer answer=answerDao.create(1,"answer context",true);
         assertEquals("answer context",answer.getName());
         assertEquals(true,answer.getCondition());
+        assertEquals(1,answer.getNumber());
     }
 
 }

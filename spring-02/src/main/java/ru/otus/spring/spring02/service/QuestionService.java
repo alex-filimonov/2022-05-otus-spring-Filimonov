@@ -6,7 +6,7 @@ import ru.otus.spring.spring02.model.Question;
 import java.util.List;
 
 public interface QuestionService {
-    void outputQuestions();
-    List<Question> getAllQuestions();
+    List<Question> getAllQuestions(List<String> lines);
+
     Answer getAnswerFromQuestionAndNumberAnswer(Question question, int number);
 }

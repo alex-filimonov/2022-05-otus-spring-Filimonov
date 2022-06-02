@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CSVResourceService {
     InputStream getCSVResourceStream();
+
     List<String> getLineListByResourceStream(Boolean skipFirstLine, InputStream inputStream);
 }

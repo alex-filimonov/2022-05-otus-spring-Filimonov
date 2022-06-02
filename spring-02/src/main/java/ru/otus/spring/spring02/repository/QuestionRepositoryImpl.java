@@ -24,14 +24,14 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     private AnswerRepository answerRepository;
     private static final String CSV_DELIMITER = ";";
 
-    public QuestionRepositoryImpl(QuestionDao questionDao, AnswerRepository answerRepository){
+    public QuestionRepositoryImpl(QuestionDao questionDao, AnswerRepository answerRepository) {
         this.questionDao = questionDao;
         this.answerRepository = answerRepository;
     }
 
-    public List<Question> getQuestionByStringList(List<String> lines){
+    public List<Question> getQuestionByStringList(List<String> lines) {
         List<Question> questionList = new ArrayList<>();
-        lines.forEach(line ->{
+        lines.forEach(line -> {
             String[] fields = line.split(CSV_DELIMITER);
             if (fields.length > 1) {
                 Question question = questionDao.create(Integer.parseInt(fields[0]), fields[1]);
@@ -42,8 +42,8 @@ public class QuestionRepositoryImpl implements QuestionRepository {
         return questionList;
     }
 
-    public Answer getAnswerFromQuestionAndNumberAnswer(Question question,int number){
-        return answerRepository.getAnswerByNumber(question.getAnswerList(),number);
+    public Answer getAnswerFromQuestionAndNumberAnswer(Question question, int number) {
+        return answerRepository.getAnswerByNumber(question.getAnswerList(), number);
     }
 
 }

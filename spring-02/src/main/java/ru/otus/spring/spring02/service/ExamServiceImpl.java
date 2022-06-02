@@ -22,27 +22,31 @@ public class ExamServiceImpl implements ExamService {
     private ExamController examController;
     private ExamDataService examDataService;
     private AppConfig appConfig;
+    private CSVResourceService csvResourceService;
 
-    ExamServiceImpl(ExamView examView,ExamController examController,ExamDataService examDataService,AppConfig appConfig){
-        this.examView=examView;
-        this.examController=examController;
-        this.examDataService=examDataService;
+    ExamServiceImpl(ExamView examView, ExamController examController, ExamDataService examDataService, AppConfig appConfig, CSVResourceService csvResourceService) {
+        this.examView = examView;
+        this.examController = examController;
+        this.examDataService = examDataService;
         this.examController.setExamDataService(this.examDataService);
-        this.appConfig=appConfig;
+        this.appConfig = appConfig;
+        this.csvResourceService = csvResourceService;
     }
 
-    public void start(){
+    public void start() {
+        List<Question> questionList = examDataService.getAllQuestions(
+                csvResourceService.getLineListByResourceStream(true, csvResourceService.getCSVResourceStream()));
+
         examController.userSet(examView.userSet());
         examView.startExamMessage();
-        List<Question> questionList=examDataService.getAllQuestions();
-        questionList.forEach(question->{
+        questionList.forEach(question -> {
             examController.userAnswer(examView.userAnswerForm(question));
         });
         examView.endExamMessage();
-        User user=examDataService.getUser();
-        List<UserAnswer> userAnswers=examDataService.getUserAnswers();
-        ExamResult examResult=examDataService.getResultExam(userAnswers,appConfig.getMinCorrectAnswers());
-        examView.resultExamMessage(user.getName(),examResult);
+        User user = examDataService.getUser();
+        List<UserAnswer> userAnswers = examDataService.getUserAnswers();
+        ExamResult examResult = examDataService.getResultExam(userAnswers, appConfig.getMinCorrectAnswers());
+        examView.resultExamMessage(user.getName(), examResult);
     }
 
 }

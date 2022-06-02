@@ -19,23 +19,23 @@ public class CSVResourceServiceImpl implements CSVResourceService {
     private AppConfig appConfig;
 
     public CSVResourceServiceImpl(AppConfig appConfig) {
-        this.appConfig=appConfig;
+        this.appConfig = appConfig;
     }
 
     @Override
-    public InputStream getCSVResourceStream(){
+    public InputStream getCSVResourceStream() {
         try {
             Resource resource = new ClassPathResource(appConfig.getQuestionFileName());
             return resource.getInputStream();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex.toString());
         }
         return null;
     }
 
     @Override
-    public List<String> getLineListByResourceStream(Boolean skipFirstLine, InputStream inputStream){
-        List<String> lines=new ArrayList<>();
+    public List<String> getLineListByResourceStream(Boolean skipFirstLine, InputStream inputStream) {
+        List<String> lines = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream);
         for (int lineNum = 1; scanner.hasNext(); lineNum++) {
             if (skipFirstLine && lineNum == 1) {
@@ -44,7 +44,7 @@ public class CSVResourceServiceImpl implements CSVResourceService {
             }
             lines.add(scanner.nextLine());
         }
-        return  lines;
+        return lines;
     }
 
 }

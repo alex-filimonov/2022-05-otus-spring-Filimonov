@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface QuestionRepository {
     List<Question> getQuestionByStringList(List<String> lines);
+
     Answer getAnswerFromQuestionAndNumberAnswer(Question question, int number);
 }

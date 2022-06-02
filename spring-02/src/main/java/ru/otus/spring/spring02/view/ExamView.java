@@ -7,8 +7,12 @@ import ru.otus.spring.spring02.model.Question;
 
 public interface ExamView {
     UserDto userSet();
+
     void startExamMessage();
+
     AnswerDto userAnswerForm(Question question);
+
     void endExamMessage();
+
     void resultExamMessage(String userName, ExamResult examResult);
 }

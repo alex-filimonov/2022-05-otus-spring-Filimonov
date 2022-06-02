@@ -11,15 +11,17 @@ public class ExamControllerImpl implements ExamController {
     private ExamDataService examDataService;
 
     @Override
-    public void setExamDataService(ExamDataService examDataService){
-        this.examDataService=examDataService;
+    public void setExamDataService(ExamDataService examDataService) {
+        this.examDataService = examDataService;
     }
+
     @Override
-    public void userSet(UserDto userDto){
+    public void userSet(UserDto userDto) {
         examDataService.createUser(userDto);
     }
+
     @Override
-    public void userAnswer(AnswerDto answerDto){
+    public void userAnswer(AnswerDto answerDto) {
         examDataService.addUserAnswer(answerDto);
     }
 

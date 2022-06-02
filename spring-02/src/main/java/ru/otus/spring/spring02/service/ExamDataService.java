@@ -11,9 +11,14 @@ import java.util.List;
 
 public interface ExamDataService {
     void createUser(UserDto userDto);
-    List<Question> getAllQuestions();
+
     void addUserAnswer(AnswerDto answerDto);
+
     ExamResult getResultExam(List<UserAnswer> userAnswers, int minCorrectAnswerCount);
+
     User getUser();
+
     List<UserAnswer> getUserAnswers();
+
+    List<Question> getAllQuestions(List<String> lines);
 }

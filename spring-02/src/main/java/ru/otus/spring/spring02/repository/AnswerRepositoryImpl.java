@@ -24,20 +24,20 @@ public class AnswerRepositoryImpl implements AnswerRepository {
     public List<Answer> getAnswersFromArray(String[] fields) {
         List<Answer> answers = new ArrayList<>();
         Iterator<String> fieldsIterator = Arrays.stream(fields).iterator();
-        int number=1;
+        int number = 1;
         while (fieldsIterator.hasNext()) {
             answers.add(
-                    answerDao.create(number,fieldsIterator.next(), Boolean.parseBoolean(fieldsIterator.next()))
+                    answerDao.create(number, fieldsIterator.next(), Boolean.parseBoolean(fieldsIterator.next()))
             );
             number++;
         }
         return answers;
     }
 
-    public Answer getAnswerByNumber(List<Answer> answers,int number){
+    public Answer getAnswerByNumber(List<Answer> answers, int number) {
         try {
-            return answers.get(number-1);
-        } catch (Exception ex){
+            return answers.get(number - 1);
+        } catch (Exception ex) {
             System.out.println(ex);
         }
         return null;
