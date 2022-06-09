@@ -7,7 +7,5 @@ import ru.otus.spring.spring02.model.User;
 public interface ExamService {
     void start();
 
-    void setExamDataService(ExamDataService examDataService);
-
     User userAnswer(User user, AnswerDto answerDto);
 }

@@ -51,11 +51,6 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void setExamDataService(ExamDataService examDataService) {
-        this.examDataService = examDataService;
-    }
-
-    @Override
     public User userAnswer(User user, AnswerDto answerDto) {
         return examDataService.addUserAnswer(user,answerDto);
     }
