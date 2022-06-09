@@ -27,7 +27,6 @@ public class ExamServiceImpl implements ExamService {
     ExamServiceImpl(ExamView examView, ExamDataService examDataService, AppConfig appConfig, CSVResourceService csvResourceService) {
         this.examView = examView;
         this.examDataService = examDataService;
-        this.setExamDataService(this.examDataService);
         this.appConfig = appConfig;
         this.csvResourceService = csvResourceService;
     }
