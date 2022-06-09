@@ -10,15 +10,11 @@ import ru.otus.spring.spring02.model.UserAnswer;
 import java.util.List;
 
 public interface ExamDataService {
-    void createUser(UserDto userDto);
 
-    void addUserAnswer(AnswerDto answerDto);
+    User addUserAnswer(User user,AnswerDto answerDto);
 
     ExamResult getResultExam(List<UserAnswer> userAnswers, int minCorrectAnswerCount);
 
-    User getUser();
-
-    List<UserAnswer> getUserAnswers();
-
     List<Question> getAllQuestions(List<String> lines);
+
 }

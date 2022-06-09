@@ -1,9 +1,5 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.spring02.dao.AnswerDao;
-import ru.otus.spring.spring02.dao.AnswerDaoImpl;
-import ru.otus.spring.spring02.dao.QuestionDao;
-import ru.otus.spring.spring02.dao.QuestionDaoImpl;
 import ru.otus.spring.spring02.model.Answer;
 import ru.otus.spring.spring02.model.Question;
 import ru.otus.spring.spring02.repository.AnswerRepository;
@@ -23,9 +19,7 @@ public class QuestionServiceTest {
 
     private QuestionService questionService;
     private QuestionRepository questionRepository;
-    private QuestionDao questionDao;
     private AnswerRepository answerRepository;
-    private AnswerDao answerDao;
 
     @Test
     @DisplayName("get all question test")
@@ -33,10 +27,8 @@ public class QuestionServiceTest {
         List<String> lines=new ArrayList<>();
         lines.add("1;question1;answer1_1;true;answer1_2;false");
         lines.add("2;question2;answer2_1;true;answer2_2;false;answer2_3;false");
-        questionDao=new QuestionDaoImpl();
-        answerDao=new AnswerDaoImpl();
-        answerRepository=new AnswerRepositoryImpl(answerDao);
-        questionRepository=new QuestionRepositoryImpl(questionDao,answerRepository);
+        answerRepository=new AnswerRepositoryImpl();
+        questionRepository=new QuestionRepositoryImpl(answerRepository);
         questionService=new QuestionServiceImpl(questionRepository);
         List<Question> questions=questionService.getAllQuestions(lines);
         assertEquals(1,questions.get(0).getId());
@@ -63,10 +55,8 @@ public class QuestionServiceTest {
         List<String> lines=new ArrayList<>();
         lines.add("1;question1;answer1_1;true;answer1_2;false");
         lines.add("2;question2;answer2_1;true;answer2_2;false;answer2_3;false");
-        questionDao=new QuestionDaoImpl();
-        answerDao=new AnswerDaoImpl();
-        answerRepository=new AnswerRepositoryImpl(answerDao);
-        questionRepository=new QuestionRepositoryImpl(questionDao,answerRepository);
+        answerRepository=new AnswerRepositoryImpl();
+        questionRepository=new QuestionRepositoryImpl(answerRepository);
         questionService=new QuestionServiceImpl(questionRepository);
         List<Question> questions=questionService.getAllQuestions(lines);
         Answer answer=questionService.getAnswerFromQuestionAndNumberAnswer(questions.get(1),2);

@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.spring02.dao.AnswerDao;
-import ru.otus.spring.spring02.dao.AnswerDaoImpl;
 import ru.otus.spring.spring02.model.Answer;
 import ru.otus.spring.spring02.repository.AnswerRepository;
 import ru.otus.spring.spring02.repository.AnswerRepositoryImpl;
@@ -14,8 +12,7 @@ public class AnswerRepositoryTest {
     @Test
     @DisplayName("Answers make test")
     void answersMakeTest(){
-        AnswerDao answerDao=new AnswerDaoImpl();
-        AnswerRepository answerRepository=new AnswerRepositoryImpl(answerDao);
+        AnswerRepository answerRepository=new AnswerRepositoryImpl();
         String[] fields={"answer1","true","answer2","false","answer3","false"};
         List<Answer> answers=answerRepository.getAnswersFromArray(fields);
         assertEquals(3,answers.size());
@@ -23,8 +20,7 @@ public class AnswerRepositoryTest {
     @Test
     @DisplayName("Answers fields test")
     void answersFieldsSetTest(){
-        AnswerDao answerDao=new AnswerDaoImpl();
-        AnswerRepository answerRepository=new AnswerRepositoryImpl(answerDao);
+        AnswerRepository answerRepository=new AnswerRepositoryImpl();
         String[] fields={"answer1","true","answer2","false"};
         List<Answer> answers=answerRepository.getAnswersFromArray(fields);
         assertEquals("answer1",answers.get(0).getName());
