@@ -1,0 +1,14 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  banner:
+    location: banner.txt
+
+application:
+  title: Exam student
+  version: 0.3.2
+
+exam:
+  min_correct_answers: 4
+  question_file: questions.csv
