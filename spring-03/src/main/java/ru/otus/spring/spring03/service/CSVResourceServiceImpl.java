@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 @Service
@@ -25,7 +26,8 @@ public class CSVResourceServiceImpl implements CSVResourceService {
     @Override
     public InputStream getCSVResourceStream() {
         try {
-            Resource resource = new ClassPathResource(appConfig.getQuestionFileName());
+            String fileName=String.format(appConfig.getQuestionFileName(),Locale.forLanguageTag(appConfig.getLocaleName()));
+            Resource resource = new ClassPathResource(fileName);
             return resource.getInputStream();
         } catch (IOException ex) {
             System.out.println(ex.toString());

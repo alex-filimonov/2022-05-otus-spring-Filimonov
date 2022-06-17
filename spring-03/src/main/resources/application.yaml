@@ -4,6 +4,8 @@ spring:
       enabled: always
   banner:
     location: banner.txt
+  messages:
+    encoding: UTF-8
 
 application:
   title: Exam student
@@ -11,4 +13,5 @@ application:
 
 exam:
   min_correct_answers: 4
-  question_file: questions.csv
+  question_file: questions_%s.csv
+  locale: en-US   # ru-RU / en-US

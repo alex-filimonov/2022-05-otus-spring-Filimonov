@@ -5,14 +5,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.spring03.config.AppConfig;
 import ru.otus.spring.spring03.dto.AnswerDto;
-import ru.otus.spring.spring03.dto.UserDto;
 import ru.otus.spring.spring03.enums.ExamResult;
 import ru.otus.spring.spring03.model.Question;
 import ru.otus.spring.spring03.model.User;
 import ru.otus.spring.spring03.model.UserAnswer;
 import ru.otus.spring.spring03.view.ExamView;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +48,13 @@ public class ExamServiceImpl implements ExamService,CommandLineRunner {
         examView.resultExamMessage(user.getName(), examResult);
     }
 
+    @Override
     public User userAnswer(User user, AnswerDto answerDto) {
         return examDataService.addUserAnswer(user,answerDto);
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         start();
     }
 }
