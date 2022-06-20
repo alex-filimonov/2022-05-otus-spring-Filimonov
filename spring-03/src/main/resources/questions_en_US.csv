@@ -1,0 +1,6 @@
+id;questions_name;answers
+1;Earth is the third planet in the solar system?;yes;true;no;false
+2;The astronomical unit is?;average distance from earth to sun;true;distance light travels in one year;false;distance from earth to mars;false
+3;How many planets in the solar system?;9;false;8;true;7;false
+4;Approximate diameter of planet earth (km)?;13245;false;12745;true;11589;false
+5;What planet is located after mercury;Mars;false;Earth;false;Venus;true
