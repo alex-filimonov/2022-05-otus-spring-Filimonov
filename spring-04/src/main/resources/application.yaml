@@ -9,6 +9,7 @@ spring:
   main:
     allow-circular-references: true
 
+
 application:
   title: Exam student
   version: 0.3.2
