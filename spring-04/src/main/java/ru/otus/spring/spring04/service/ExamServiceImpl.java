@@ -74,7 +74,7 @@ public class ExamServiceImpl implements ExamService {
         }
         Question question=questionList.get(user.getUserAnswers().size());
         AnswerDto answerDto=new AnswerDto(question,numberAnswer);
-        userAnswer(user,answerDto);
+        user=userAnswer(user,answerDto);
     }
 
     @Override
