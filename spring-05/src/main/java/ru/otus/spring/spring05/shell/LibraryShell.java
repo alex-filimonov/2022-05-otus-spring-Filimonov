@@ -68,6 +68,12 @@ public class LibraryShell {
         return MESSAGE_OK;
     }
 
+    @ShellMethod("book-count")
+    public String bookCount(){
+        int count=bookDao.count();
+        return String.valueOf(count);
+    }
+
     @ShellMethod("book-delete")
     public String bookDelete(int bookId){
         bookDao.deleteById(bookId);
