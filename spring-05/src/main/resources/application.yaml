@@ -8,7 +8,7 @@ spring:
     data: data.sql
   shell:
     interactive:
-      enabled: false
+      enabled: true
   sql:
     init:
       mode: always

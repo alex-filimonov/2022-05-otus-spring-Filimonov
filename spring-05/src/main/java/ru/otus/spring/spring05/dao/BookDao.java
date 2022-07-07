@@ -14,6 +14,8 @@ public interface BookDao {
 
     void delete(Book book);
 
+    void deleteById(long id);
+
     Book getById(long id);
 
     List<Book> getAll();

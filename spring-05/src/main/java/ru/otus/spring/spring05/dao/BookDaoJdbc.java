@@ -63,6 +63,14 @@ public class BookDaoJdbc implements BookDao{
     }
 
     @Override
+    public void deleteById(long id){
+        Map<String, Object> param= Stream.of(new Object[][] {
+                { "id", id }
+        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Object) data[1]));
+        namedParameterJdbcOperations.update("delete from books where id=:id",param);
+    }
+
+    @Override
     public Book getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return namedParameterJdbcOperations.queryForObject(

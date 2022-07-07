@@ -16,7 +16,7 @@ public class Spring05Application {
     public static void main(String[] args) {
 
         ApplicationContext context = SpringApplication.run(Spring05Application.class);
-
+/*
         BookDao bookDao= context.getBean(BookDao.class);
         System.out.println("All count " + bookDao.count());
         Book book=bookDao.getById(0);
@@ -33,7 +33,7 @@ public class Spring05Application {
 
         bookList=bookDao.getAll();
         System.out.println("books " + bookList.toString());
-
+*/
     }
 
 }
