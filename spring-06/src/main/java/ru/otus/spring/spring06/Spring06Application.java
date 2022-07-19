@@ -17,6 +17,7 @@ public class Spring06Application {
     public static void main(String[] args) {
 
         ApplicationContext context=SpringApplication.run(Spring06Application.class, args);
+        /*
         BookRepositoryJpa bookRepositoryJpa=context.getBean(BookRepositoryJpa.class);
         AuthorRepositoryJpa authorRepositoryJpa=context.getBean(AuthorRepositoryJpa.class);
         List<Book> bookList=bookRepositoryJpa.findAll();
@@ -26,7 +27,7 @@ public class Spring06Application {
         Author author=new Author();
         author.setName("Test");
         authorRepositoryJpa.save(author);
-
+*/
 
 /*
         Book book=bookRepositoryJpa.findById(1).get();

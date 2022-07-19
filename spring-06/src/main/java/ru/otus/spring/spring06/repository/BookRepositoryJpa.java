@@ -2,14 +2,13 @@ package ru.otus.spring.spring06.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.spring06.models.Book;
+import ru.otus.spring.spring06.shell.LibraryShell;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-
 public class BookRepositoryJpa implements BookRepository{
 
     @PersistenceContext
@@ -32,7 +31,11 @@ public class BookRepositoryJpa implements BookRepository{
 
     @Override
     public Optional<Book> findById(int id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-author-entity-graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id= :id", Book.class);
+        query.setParameter("id", id);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
+        return Optional.of(query.getResultList().get(0));
     }
 
     @Override
