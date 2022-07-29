@@ -1,4 +1,4 @@
-package ru.otus.spring.spring06.models;
+package ru.otus.spring.spring07.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,17 +10,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "authors")
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name="book_id", nullable=false)
-    private Book book;
-
-    @Column(name = "data")
-    private String data;
+    @Column(name = "name")
+    private String name;
 
 }

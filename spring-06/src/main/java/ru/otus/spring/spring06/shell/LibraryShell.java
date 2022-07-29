@@ -11,6 +11,8 @@ import ru.otus.spring.spring06.models.Book;
 import ru.otus.spring.spring06.models.Comment;
 import ru.otus.spring.spring06.models.Genre;
 import ru.otus.spring.spring06.repository.*;
+import ru.otus.spring.spring06.service.BookService;
+import ru.otus.spring.spring06.service.CommentService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -21,25 +23,20 @@ import java.util.Optional;
 @ShellComponent
 @Transactional
 public class LibraryShell {
-    BookRepository bookRepository;
-    GenreRepository genreRepository;
-    AuthorRepository authorRepository;
-    CommentRepository commentRepository;
+    private BookService bookService;
+    private CommentService commentService;
 
     private String MESSAGE_OK="ok";
 
 
-    LibraryShell(BookRepository bookRepository,GenreRepository genreRepository,AuthorRepository authorRepository, CommentRepository commentRepository){
-        this.bookRepository=bookRepository;
-        this.authorRepository=authorRepository;
-        this.genreRepository=genreRepository;
-        this.commentRepository=commentRepository;
+    LibraryShell(BookService bookService, CommentService commentService){
+        this.bookService=bookService;
+        this.commentService=commentService;
     }
 
     @ShellMethod("book-getAll")
-    @Transactional
     public String bookGetAll(){
-        List<Book> bookList=bookRepository.findAll();
+        List<Book> bookList=bookService.getAll();
         List<List<String>> data=new ArrayList<>();
         data.add(Arrays.asList(new String[]{"ID","BOOK_NAME","AUTHOR","GENRE"}));
         bookList.forEach(book -> {
@@ -49,9 +46,8 @@ public class LibraryShell {
     }
 
     @ShellMethod("book-get")
-    @Transactional
     public String bookGet(int id){
-        Book book=bookRepository.findById(id).get();
+        Book book=bookService.findById(id);
         List<List<String>> data=new ArrayList<>();
         data.add(Arrays.asList(new String[]{"ID","BOOK_NAME","AUTHOR","GENRE"}));
         data.add(Arrays.asList(new String(String.valueOf(book.getId())),book.getName(),book.getAuthor().getName(),book.getGenre().getName()));
@@ -59,74 +55,52 @@ public class LibraryShell {
     }
 
     @ShellMethod("book-add")
-    @Transactional
     public String bookAdd(String bookName,int authorId, int genreId){
-        Author author=authorRepository.findById(authorId).get();
-        Genre genre=genreRepository.findById(genreId).get();
-        Book book=new Book();
-        book.setName(bookName);
-        book.setAuthor(author);
-        book.setGenre(genre);
-        bookRepository.save(book);
+        bookService.add(bookName,authorId,genreId);
         return MESSAGE_OK;
     }
 
     @ShellMethod("book-update")
     @Transactional
     public String bookUpdate(int bookId, String bookName,int authorId, int genreId){
-        Author author=authorRepository.findById(authorId).get();
-        Genre genre=genreRepository.findById(genreId).get();
-        Book book=bookRepository.findById(bookId).get();
-        book.setName(bookName);
-        book.setAuthor(author);
-        book.setGenre(genre);
-        bookRepository.save(book);
+        bookService.update(bookId, bookName, authorId, genreId);
         return MESSAGE_OK;
     }
 
     @ShellMethod("book-delete")
     @Transactional
     public String bookDelete(int bookId){
-        bookRepository.deleteById(bookId);
+        bookService.delete(bookId);
         return MESSAGE_OK;
     }
 
     @ShellMethod("comments-get")
     public String commentsGet(int bookId){
-        Book book=bookRepository.findById(bookId).get();
+        Book book=bookService.findById(bookId);
         List<List<String>> data=new ArrayList<>();
-        data.add(Arrays.asList(new String[]{"ID","BOOK_ID","BOOK_NAME","COMMENT_DATA"}));
+        data.add(Arrays.asList(new String[]{"ID","BOOK_NAME","COMMENT_DATA"}));
         book.getCommentList().forEach(comment->{
-            data.add(Arrays.asList(new String(String.valueOf(comment.getId())),String.valueOf(comment.getBook_id()),book.getName(),comment.getData()));
+            data.add(Arrays.asList(new String(String.valueOf(comment.getId())),book.getName(),comment.getData()));
         });
         return getString(data);
     }
 
     @ShellMethod("comment-add")
     public String commentAdd(int bookId, String data){
-        Comment comment=new Comment();
-        comment.setBook_id(bookId);
-        comment.setData(data);
-        commentRepository.save(comment);
+        commentService.add(bookId, data);
         return MESSAGE_OK;
     }
-
     @ShellMethod("comment-update")
     public String commentUpdate(int id, int bookId, String data){
-        Comment comment=commentRepository.findById(id).get();
-        comment.setBook_id(bookId);
-        comment.setData(data);
-        commentRepository.save(comment);
+        commentService.update(id, bookId, data);
         return MESSAGE_OK;
     }
 
     @ShellMethod("comment-delete")
     public String commentDelete(int id){
-        commentRepository.deleteById(id);
+        commentService.delete(id);
         return MESSAGE_OK;
     }
-
-
 
     private String getString(List<List<String>> data) {
         TableModel model= (TableModel) new ArrayTableModel(data.stream().map(x->x.toArray(new Object[x.size()])).toArray(Object[][]::new));

@@ -30,35 +30,19 @@ public class CommentRepositoryJpa implements CommentRepository{
 
     @Override
     public Optional<Comment> findById(int id) {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.id= :id", Comment.class);
-        query.setParameter("id", id);
-        return Optional.of(query.getResultList().get(0));
-    }
-
-    @Override
-    public List<Comment> findByBookId(int bookId) {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book_id=:bookId", Comment.class);
-        query.setParameter("bookId", bookId);
-        return query.getResultList();
+        return Optional.ofNullable(em.find(Comment.class, id));
     }
 
     @Override
     public void updateDataById(int id, String data) {
-        Query query = em.createQuery("update Comment c " +
-                "set c.data = :name " +
-                "where b.id = :id");
-        query.setParameter("name", data);
-        query.setParameter("id", id);
-        query.executeUpdate();
-
+        this.findById(id).ifPresent(c->{
+            c.setData(data);
+            this.save(c);
+        });
     }
 
     @Override
     public void deleteById(int id) {
-        Query query = em.createQuery("delete " +
-                "from Comment s " +
-                "where s.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        this.findById(id).ifPresent(c -> {em.remove(c);});
     }
 }

@@ -1,4 +1,4 @@
-package ru.otus.spring.spring06.models;
+package ru.otus.spring.spring07.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +16,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name="book_id", nullable=false)
-    private Book book;
+    @Column(name = "book_id")
+    private int book_id;
+
 
     @Column(name = "data")
     private String data;

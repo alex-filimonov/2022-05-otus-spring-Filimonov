@@ -9,10 +9,7 @@ import ru.otus.spring.spring06.models.Author;
 import ru.otus.spring.spring06.models.Book;
 import ru.otus.spring.spring06.models.Comment;
 import ru.otus.spring.spring06.models.Genre;
-import ru.otus.spring.spring06.repository.AuthorRepositoryJpa;
-import ru.otus.spring.spring06.repository.BookRepositoryJpa;
-import ru.otus.spring.spring06.repository.CommentRepositoryJpa;
-import ru.otus.spring.spring06.repository.GenreRepositoryJpa;
+import ru.otus.spring.spring06.repository.*;
 
 import java.util.List;
 
@@ -27,37 +24,35 @@ public class CommentTest {
     private BookRepositoryJpa bookRepositoryJpa;
 
     @Autowired
-    private GenreRepositoryJpa genreRepositoryJpa;
-
-    @Autowired
-    private AuthorRepositoryJpa authorRepositoryJpa;
-
-    @Autowired
     private CommentRepositoryJpa commentRepositoryJpa;
 
     @DisplayName("get comments from bookId")
     @Test
     void findAllTest(){
-        List<Comment> commentList=commentRepositoryJpa.findByBookId(1);
+        Book book=bookRepositoryJpa.findById(1).get();
+        List<Comment> commentList=book.getCommentList();
         assertThat(commentList.size() > 0);
     }
 
     @DisplayName("add comment")
     @Test
     void addCommentTest(){
+        Book book=bookRepositoryJpa.findById(1).get();
         Comment comment=new Comment();
         comment.setData("data 34");
-        comment.setBook_id(1);
+        comment.setBook(book);
         commentRepositoryJpa.save(comment);
-        List<Comment> commentList=commentRepositoryJpa.findByBookId(1);
+        Book book2=bookRepositoryJpa.findById(1).get();
+        List<Comment> commentList=book2.getCommentList();
+
         assertThat(commentList.size() > 1);
 
     }
-
     @DisplayName("update comment")
     @Test
     void updateCommentTest(){
-        List<Comment> commentList=commentRepositoryJpa.findByBookId(1);
+        Book book=bookRepositoryJpa.findById(1).get();
+        List<Comment> commentList=book.getCommentList();
         commentList.get(0).setData("data3_5");
         commentRepositoryJpa.save(commentList.get(0));
         Comment comment=commentRepositoryJpa.findById(commentList.get(0).getId()).get();
@@ -67,14 +62,17 @@ public class CommentTest {
     @DisplayName("delete book")
     @Test
     void deleteBookTest(){
+        Book book0=bookRepositoryJpa.findById(1).get();
         Comment comment=new Comment();
         comment.setData("data 34");
-        comment.setBook_id(1);
+        comment.setBook(book0);
         commentRepositoryJpa.save(comment);
-        List<Comment> commentList=commentRepositoryJpa.findByBookId(1);
+        Book book=bookRepositoryJpa.findById(1).get();
+        List<Comment> commentList=book.getCommentList();
         int countCommentBefore=commentList.size();
         commentRepositoryJpa.deleteById(comment.getId());
-        List<Comment> commentList2=commentRepositoryJpa.findByBookId(1);
+        Book book1=bookRepositoryJpa.findById(1).get();
+        List<Comment> commentList2=book1.getCommentList();
         assertThat(countCommentBefore>commentList2.size());
     }
 

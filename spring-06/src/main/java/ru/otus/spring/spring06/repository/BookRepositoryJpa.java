@@ -31,11 +31,7 @@ public class BookRepositoryJpa implements BookRepository{
 
     @Override
     public Optional<Book> findById(int id) {
-        EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-author-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id= :id", Book.class);
-        query.setParameter("id", id);
-        query.setHint("javax.persistence.fetchgraph", entityGraph);
-        return Optional.of(query.getResultList().get(0));
+        return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
@@ -48,20 +44,14 @@ public class BookRepositoryJpa implements BookRepository{
 
     @Override
     public void updateNameById(int id, String name) {
-        Query query = em.createQuery("update Book b " +
-                "set b.name = :name " +
-                "where b.id = :id");
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
+        this.findById(id).ifPresent(b->{
+            b.setName(name);
+            this.save(b);
+        });
     }
 
     @Override
     public void deleteById(int id) {
-        Query query = em.createQuery("delete " +
-                "from Book s " +
-                "where s.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        this.findById(id).ifPresent(c -> {em.remove(c);});
     }
 }
