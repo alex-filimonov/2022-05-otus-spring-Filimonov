@@ -21,4 +21,3 @@ CREATE TABLE COMMENTS(
                          DATA VARCHAR(255),
                          foreign key (BOOK_ID) references BOOKS(ID)
 );
->>>>>>> master

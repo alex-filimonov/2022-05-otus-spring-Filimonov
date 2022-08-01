@@ -1,15 +1,8 @@
 package ru.otus.spring.spring07.repository;
 
-import ru.otus.spring.spring07.models.Author;
-import ru.otus.spring.spring07.models.Genre;
+import org.springframework.data.repository.CrudRepository;
+import ru.otus.spring.spring07.domain.Author;
 
-import java.util.List;
-import java.util.Optional;
+public interface AuthorRepository extends CrudRepository<Author, Long> {
 
-public interface AuthorRepository {
-    Author save(Author author);
-    Optional<Author> findById(int id);
-    List<Author> findAll();
-    void updateNameById(int id, String name);
-    void deleteById(int id);
 }

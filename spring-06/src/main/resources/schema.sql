@@ -16,9 +16,8 @@ CREATE TABLE BOOKS(
 
 DROP TABLE IF EXISTS COMMENTS;
 CREATE TABLE COMMENTS(
-                         ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-                         BOOK_ID BIGINT NOT NULL,
-                         DATA VARCHAR(255),
-                         foreign key (BOOK_ID) references BOOKS(ID)
+                      ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      BOOK_ID BIGINT NOT NULL,
+                      DATA VARCHAR(255),
+                      foreign key (BOOK_ID) references BOOKS(ID)
 );
->>>>>>> master

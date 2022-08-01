@@ -1,5 +1,6 @@
 package ru.otus.spring.spring07.repository;
 
+<<<<<<< HEAD
 import ru.otus.spring.spring07.models.Book;
 import ru.otus.spring.spring07.models.Genre;
 
@@ -12,4 +13,10 @@ public interface GenreRepository {
     List<Genre> findAll();
     void updateNameById(int id, String name);
     void deleteById(int id);
+=======
+import org.springframework.data.repository.CrudRepository;
+import ru.otus.spring.spring07.domain.Genre;
+
+public interface GenreRepository extends CrudRepository<Genre, Long> {
+>>>>>>> master
 }
