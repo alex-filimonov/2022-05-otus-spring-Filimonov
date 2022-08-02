@@ -1,9 +1,9 @@
 package ru.otus.spring.spring07.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.spring07.models.Author;
-import ru.otus.spring.spring07.models.Book;
-import ru.otus.spring.spring07.models.Genre;
+import ru.otus.spring.spring07.domain.Author;
+import ru.otus.spring.spring07.domain.Book;
+import ru.otus.spring.spring07.domain.Genre;
 import ru.otus.spring.spring07.repository.AuthorRepository;
 import ru.otus.spring.spring07.repository.BookRepository;
 import ru.otus.spring.spring07.repository.CommentRepository;
@@ -25,7 +25,6 @@ public class BookService {
         this.genreRepository=genreRepository;
         this.commentRepository=commentRepository;
     }
-
 
     public List<Book> getAll(){
         return bookRepository.findAll();
@@ -64,5 +63,4 @@ public class BookService {
         });
 
     }
-
 }

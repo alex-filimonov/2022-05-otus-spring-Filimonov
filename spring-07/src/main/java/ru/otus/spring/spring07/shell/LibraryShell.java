@@ -6,10 +6,7 @@ import org.springframework.shell.table.ArrayTableModel;
 import org.springframework.shell.table.BorderStyle;
 import org.springframework.shell.table.TableBuilder;
 import org.springframework.shell.table.TableModel;
-import ru.otus.spring.spring07.models.Author;
-import ru.otus.spring.spring07.models.Book;
-import ru.otus.spring.spring07.models.Comment;
-import ru.otus.spring.spring07.models.Genre;
+import ru.otus.spring.spring07.domain.Book;
 import ru.otus.spring.spring07.repository.*;
 import ru.otus.spring.spring07.service.BookService;
 import ru.otus.spring.spring07.service.CommentService;
@@ -108,5 +105,4 @@ public class LibraryShell {
         tableBuilder.addFullBorder(BorderStyle.fancy_light);
         return tableBuilder.build().render(80);
     }
-
 }

@@ -16,9 +16,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "book_id")
-    private int book_id;
-
+    @ManyToOne
+    @JoinColumn(name="book_id", nullable=false)
+    private Book book;
 
     @Column(name = "data")
     private String data;

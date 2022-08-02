@@ -1,8 +1,8 @@
 package ru.otus.spring.spring07.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.spring07.models.Book;
-import ru.otus.spring.spring07.models.Comment;
+import ru.otus.spring.spring07.domain.Book;
+import ru.otus.spring.spring07.domain.Comment;
 import ru.otus.spring.spring07.repository.AuthorRepository;
 import ru.otus.spring.spring07.repository.BookRepository;
 import ru.otus.spring.spring07.repository.CommentRepository;
@@ -28,7 +28,6 @@ public class CommentService {
         this.genreRepository=genreRepository;
         this.commentRepository=commentRepository;
     }
-
     public Comment findById(int id){
         return commentRepository.findById(id).get();
     }
@@ -54,10 +53,8 @@ public class CommentService {
             commentRepository.save(comment.get());
         }
     }
-
     @Transactional
     public void delete(int id){
         commentRepository.deleteById(id);
     }
-
 }
