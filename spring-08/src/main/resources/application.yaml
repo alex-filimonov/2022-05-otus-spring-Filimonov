@@ -2,10 +2,10 @@ spring:
   data:
     mongodb:
       database: booklib
-      host: 192.168.10.99
+      host: 127.0.0.1
 
 mongock:
-  #runner-type: "ApplicationRunner" # default
+#  runner-type: "ApplicationRunner" # default
   runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.spring.spring08.mongock.changelog

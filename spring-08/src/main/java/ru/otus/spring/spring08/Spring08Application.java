@@ -24,12 +24,6 @@ public class Spring08Application {
 
     public static void main(String[] args) {
         ApplicationContext context=SpringApplication.run(Spring08Application.class, args);
-
-        BookRepository bookRepository=context.getBean(BookRepository.class);
-        List<Book> bookList=bookRepository.findAll();
-        bookList.forEach(b->System.out.println(b.getAuthor().getName()));
-
-
     }
 
 }
