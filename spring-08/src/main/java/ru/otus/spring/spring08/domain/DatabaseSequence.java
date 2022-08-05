@@ -3,11 +3,11 @@ package ru.otus.spring.spring08.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "database_sequences")
+@Document(collection = "database_sequences")
 public class DatabaseSequence {
     @Id
     private String id;
-    private long seq;
+    private int seq;
     public DatabaseSequence() {}
 
     public String getId() {
@@ -22,7 +22,7 @@ public class DatabaseSequence {
         return seq;
     }
 
-    public void setSeq(long seq) {
+    public void setSeq(int seq) {
         this.seq = seq;
     }
 }

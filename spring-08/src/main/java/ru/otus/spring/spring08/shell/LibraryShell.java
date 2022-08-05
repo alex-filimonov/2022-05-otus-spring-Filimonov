@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ShellComponent
+//@ShellComponent
 public class LibraryShell {
     private BookService bookService;
     private CommentService commentService;
@@ -51,21 +51,16 @@ public class LibraryShell {
         bookService.add(bookName,authorId,genreId);
         return MESSAGE_OK;
     }
-/*
     @ShellMethod("book-update")
-    @Transactional
     public String bookUpdate(int bookId, String bookName,int authorId, int genreId){
         bookService.update(bookId, bookName, authorId, genreId);
         return MESSAGE_OK;
     }
-
     @ShellMethod("book-delete")
-    @Transactional
     public String bookDelete(int bookId){
         bookService.delete(bookId);
         return MESSAGE_OK;
     }
-
     @ShellMethod("comments-get")
     public String commentsGet(int bookId){
         Book book=bookService.findById(bookId);
@@ -76,15 +71,14 @@ public class LibraryShell {
         });
         return getString(data);
     }
-
     @ShellMethod("comment-add")
     public String commentAdd(int bookId, String data){
         commentService.add(bookId, data);
         return MESSAGE_OK;
     }
     @ShellMethod("comment-update")
-    public String commentUpdate(int id, int bookId, String data){
-        commentService.update(id, bookId, data);
+    public String commentUpdate(int id, String data){
+        commentService.update(id, data);
         return MESSAGE_OK;
     }
 
@@ -93,7 +87,7 @@ public class LibraryShell {
         commentService.delete(id);
         return MESSAGE_OK;
     }
-*/
+
     private String getString(List<List<String>> data) {
         TableModel model= (TableModel) new ArrayTableModel(data.stream().map(x->x.toArray(new Object[x.size()])).toArray(Object[][]::new));
         TableBuilder tableBuilder = new TableBuilder( model);

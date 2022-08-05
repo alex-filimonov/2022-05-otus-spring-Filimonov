@@ -41,12 +41,34 @@ public class BookService {
         return bookRepository.findById(id).get();
     }
 
+    public Book findOneByCommentId(int id){
+        return bookRepository.findBookByCommentListIn(id).get();
+    }
+
     public Book add(String bookName,int authorId, int genreId){
         Genre genre=genreRepository.findById(genreId).get();
-        Author author=authorRepository.findById(1).get();
+        Author author=authorRepository.findById(authorId).get();
         Book book=new Book(bookName,genre,author,Collections.emptyList());
         book.setId(sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         return bookRepository.save(book);
+    }
+
+    public Book update(int bookId, String bookName,int authorId, int genreId){
+        Genre genre=genreRepository.findById(genreId).get();
+        Author author=authorRepository.findById(authorId).get();
+        Book book=bookRepository.findById(bookId).get();
+        book.setName(bookName);
+        book.setAuthor(author);
+        book.setGenre(genre);
+        return bookRepository.save(book);
+    }
+
+    public Book update(Book book){
+        return bookRepository.save(book);
+    }
+
+    public void delete(int bookId){
+        bookRepository.deleteById(bookId);
     }
 
 

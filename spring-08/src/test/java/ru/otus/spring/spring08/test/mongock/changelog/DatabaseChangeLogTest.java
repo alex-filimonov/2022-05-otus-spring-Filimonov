@@ -2,7 +2,9 @@ package ru.otus.spring.spring08.test.mongock.changelog;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import ru.otus.spring.spring08.domain.Author;
 import ru.otus.spring.spring08.domain.Book;
 import ru.otus.spring.spring08.domain.Comment;
@@ -55,6 +57,17 @@ public class DatabaseChangeLogTest {
         book.setId(1);
         bookRepository.save(book);
     }
+
+
+    @ChangeSet(order = "005", id = "insertSeq", author = "alex")
+    public void insertSeq(MongoDatabase db) {
+        MongoCollection<Document> myCollection = db.getCollection("database_sequences");
+        Document doc = new Document().append("_id", Book.SEQUENCE_NAME).append("seq",3);
+        myCollection.insertOne(doc);
+        Document doc2 = new Document().append("_id", Comment.SEQUENCE_NAME).append("seq",3);
+        myCollection.insertOne(doc2);
+    }
+
 
 
 }

@@ -1,9 +1,5 @@
 package ru.otus.spring.spring08.mongock.changelog;
 
-import com.github.cloudyrock.mongock.ChangeLog;
-import com.github.cloudyrock.mongock.ChangeSet;
-import com.mongodb.client.MongoDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.spring.spring08.domain.Author;
 import ru.otus.spring.spring08.domain.Book;
 import ru.otus.spring.spring08.domain.Comment;
@@ -12,7 +8,12 @@ import ru.otus.spring.spring08.repository.AuthorRepository;
 import ru.otus.spring.spring08.repository.BookRepository;
 import ru.otus.spring.spring08.repository.CommentRepository;
 import ru.otus.spring.spring08.repository.GenreRepository;
-import ru.otus.spring.spring08.service.SequenceGeneratorService;
+
+import com.github.cloudyrock.mongock.ChangeLog;
+import com.github.cloudyrock.mongock.ChangeSet;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,5 +60,13 @@ public class DatabaseChangelog {
         bookRepository.save(book);
     }
 
+    @ChangeSet(order = "005", id = "insertSeq", author = "alex")
+    public void insertSeq(MongoDatabase db) {
+        MongoCollection<org.bson.Document> myCollection = db.getCollection("database_sequences");
+        Document doc = new Document().append("_id", Book.SEQUENCE_NAME).append("seq",3);
+        myCollection.insertOne(doc);
+        Document doc2 = new Document().append("_id", Comment.SEQUENCE_NAME).append("seq",3);
+        myCollection.insertOne(doc2);
+    }
 
 }

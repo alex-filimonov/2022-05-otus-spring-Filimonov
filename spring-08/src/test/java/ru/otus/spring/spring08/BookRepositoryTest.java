@@ -31,14 +31,12 @@ public class BookRepositoryTest {
     AuthorRepository authorRepository;
     @Autowired
     CommentRepository commentRepository;
-
     @DisplayName("get all book")
     @Test
     public void findAllTest(){
         List<Book> books=bookRepository.findAll();
         assertThat(books.size() > 0);
     }
-
     @DisplayName("add book")
     @Test
     public void addBookTest(){
@@ -76,5 +74,4 @@ public class BookRepositoryTest {
         assertThat(books2.size()<countBeforeDelete);
 
     }
-
 }

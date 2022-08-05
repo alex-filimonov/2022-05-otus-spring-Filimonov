@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017?retryWrites=true
-
+      database: booklib
+      host: 127.0.0.1
 
 mongock:
   #runner-type: "ApplicationRunner" # default
