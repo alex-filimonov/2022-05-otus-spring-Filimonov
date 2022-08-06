@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-fragment (mainContent)">
+
+    <head>
+        <title>Book lib</title>
+    </head>
+    <body>
+    <h1>Books Lib</h1>
+
+    <article th:insert="${mainContent} ?: ~{}">
+    </article>
+
+    </body>
+</html>
