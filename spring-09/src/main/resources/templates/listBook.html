@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{:: #home-main-content}
+                                               )}">
+    <head>
+    </head>
+    <body>
+        <div id="home-main-content">
+            <h2>Books list</h2>
+            <a href="./addBook">Add new book</a>
+            <table>
+                <theader>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Author
+                        </th>
+                        <th>
+                            Genre
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </theader>
+                <tbody>
+                <tr th:each="book : ${bookList}">
+                    <td th:text="${book.getName()}">1</td>
+                    <td th:text="${book.getAuthor().getName()}">Author</td>
+                    <td th:text="${book.getGenre().getName()}">genre</td>
+                    <td>
+                        <a href="/editBook" th:href="@{/editBook(id=${book.getId()})}">Edit</a>,
+                        <a href="/deleteBook" th:href="@{/deleteBook(id=${book.getId()})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
