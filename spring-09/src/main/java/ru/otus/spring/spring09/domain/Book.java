@@ -22,15 +22,15 @@ public class Book {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.DETACH)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Author.class, cascade = CascadeType.DETACH )
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "book_id")
     private List<Comment> commentList;
 

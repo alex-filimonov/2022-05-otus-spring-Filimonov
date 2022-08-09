@@ -15,7 +15,7 @@ public interface BookService {
     Book add(BookDto bookDto);
 
     @Transactional
-    void update(int bookId, String bookName, int authorId, int genreId);
+    void update(BookDto bookDto);
 
     @Transactional
     void delete(int bookId);

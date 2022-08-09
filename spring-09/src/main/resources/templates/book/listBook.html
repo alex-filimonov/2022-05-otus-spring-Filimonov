@@ -34,7 +34,8 @@
                     <td th:text="${book.getGenre().getName()}">genre</td>
                     <td>
                         <a href="/editBook" th:href="@{/editBook(id=${book.getId()})}">Edit</a>,
-                        <a href="/deleteBook" th:href="@{/deleteBook(id=${book.getId()})}">Delete</a>
+                        <a href="/confirmDeleteBook" th:href="@{/confirmDeleteBook(id=${book.getId()})}">Delete</a>
+                        <a href="/commentList" th:href="@{commentList(bookId=${book.getId()})}">Comments</a>
                     </td>
                 </tr>
                 </tbody>

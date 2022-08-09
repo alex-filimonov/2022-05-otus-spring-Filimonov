@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{:: #home-main-content}
+                                               )}">
+<head>
+</head>
+<body>
+<div id="home-main-content">
+    <h2>Confirm delete book</h2>
+    <a href="..">return books list</a>
+    <form th:method="post" th:action="@{/deleteBook(id=${book.getId()})}" th:object="${book}">
+        <h3>Delete book:</h3>
+        <div class="row">
+            <label for="book-name-input">Name:</label>
+            <input id="book-name-input" name="name" type="text" th:value="*{name}" readonly="readonly"/>
+        </div>
+
+        <div class="row">
+            <button type="submit">Delete</button>
+            <a href="list.html" th:href="@{/static}"><button type="button">Cancel</button></a>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -17,7 +17,7 @@ CREATE TABLE BOOKS(
 DROP TABLE IF EXISTS COMMENTS;
 CREATE TABLE COMMENTS(
                          ID INT AUTO_INCREMENT PRIMARY KEY,
-                         BOOK_ID BIGINT NOT NULL,
+                         BOOK_ID BIGINT,
                          DATA VARCHAR(255),
-                         foreign key (BOOK_ID) references BOOKS(ID)
+                         foreign key (BOOK_ID) references BOOKS(ID) ON DELETE CASCADE
 );

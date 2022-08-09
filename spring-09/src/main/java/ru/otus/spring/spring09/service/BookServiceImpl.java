@@ -52,11 +52,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void update(int bookId, String bookName, int authorId, int genreId){
-        Author author=authorRepository.findById(authorId).get();
-        Genre genre=genreRepository.findById(genreId).get();
-        Book book=bookRepository.findById(bookId).get();
-        book.setName(bookName);
+    public void update(BookDto bookDto){
+        Author author=authorRepository.findById(bookDto.getAuthor().getId()).get();
+        Genre genre=genreRepository.findById(bookDto.getGenre().getId()).get();
+        Book book=bookRepository.findById(bookDto.getId()).get();
+        book.setName(bookDto.getName());
         book.setAuthor(author);
         book.setGenre(genre);
         bookRepository.save(book);
@@ -65,9 +65,16 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void delete(int bookId){
+        Book book=bookRepository.findById(bookId).get();
+//        book.getCommentList().forEach(c->commentRepository.deleteById(c.getId()));
+        bookRepository.delete(book);
+        /*
         bookRepository.findById(bookId).ifPresent(b->{
+
+            b.getCommentList().forEach(c->commentRepository.delete(c));
+            b.getCommentList().clear();
             bookRepository.delete(b);
         });
-
+*/
     }
 }
