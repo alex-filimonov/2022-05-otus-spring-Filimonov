@@ -5,7 +5,7 @@ import ru.otus.spring.spring10.domain.Comment;
 
 @Data
 public class CommentDto {
-    private int id;
+    private Long id;
 
     private Long bookId;
     private String data;

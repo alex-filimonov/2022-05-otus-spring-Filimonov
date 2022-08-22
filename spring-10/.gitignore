@@ -34,7 +34,8 @@ build/
 
 ## NODE JS
 # dependencies
-/node_modules
+ui/node_modules
+node_modules
 /.pnp
 .pnp.js
 

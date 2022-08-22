@@ -12,5 +12,5 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     List<Comment> findAll();
 
     Optional<Comment> findById(int id);
-    void deleteById(int id);
+    void deleteById(Long id);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface BookService {
     List<Book> getAll();
 
-    Book findById(int id);
+    Book findById(Long id);
 
     @Transactional
     Book add(BookDto bookDto);
@@ -18,5 +18,5 @@ public interface BookService {
     void update(BookDto bookDto);
 
     @Transactional
-    void delete(int bookId);
+    void delete(Long bookId);
 }

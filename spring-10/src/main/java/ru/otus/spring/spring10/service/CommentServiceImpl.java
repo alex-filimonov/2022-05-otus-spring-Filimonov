@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository=commentRepository;
     }
     @Override
-    public Comment findById(int id){
+    public Comment findById(Long id){
         return commentRepository.findById(id).get();
     }
 
@@ -57,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
     }
     @Override
     @Transactional
-    public void delete(int id){
+    public void delete(Long id){
         commentRepository.deleteById(id);
     }
 }

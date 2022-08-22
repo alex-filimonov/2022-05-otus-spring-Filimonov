@@ -33,7 +33,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findById(int id){
+    public Book findById(Long id){
         return bookRepository.findById(id).get();
     }
 
@@ -64,17 +64,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void delete(int bookId){
-        Book book=bookRepository.findById(bookId).get();
-//        book.getCommentList().forEach(c->commentRepository.deleteById(c.getId()));
-        bookRepository.delete(book);
-        /*
-        bookRepository.findById(bookId).ifPresent(b->{
-
-            b.getCommentList().forEach(c->commentRepository.delete(c));
-            b.getCommentList().clear();
-            bookRepository.delete(b);
-        });
-*/
+    public void delete(Long bookId){
+        bookRepository.deleteById(bookId);
     }
 }

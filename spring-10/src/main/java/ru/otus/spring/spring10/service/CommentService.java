@@ -6,7 +6,7 @@ import ru.otus.spring.spring10.dto.CommentDto;
 import javax.transaction.Transactional;
 
 public interface CommentService {
-    Comment findById(int id);
+    Comment findById(Long id);
 
     @Transactional
     Comment add(CommentDto commentDto);
@@ -15,5 +15,5 @@ public interface CommentService {
     void update(CommentDto commentDto);
 
     @Transactional
-    void delete(int id);
+    void delete(Long id);
 }
