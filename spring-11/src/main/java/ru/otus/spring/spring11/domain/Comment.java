@@ -13,9 +13,6 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 @Data
 public class Comment {
 
-    @Transient
-    public static final String SEQUENCE_NAME = "comments_sequence";
-
     @Id
     private int id;
     private String data;

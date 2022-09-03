@@ -8,15 +8,20 @@ import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple3;
 import ru.otus.spring.spring11.domain.Author;
 import ru.otus.spring.spring11.domain.Book;
+import ru.otus.spring.spring11.domain.Comment;
 import ru.otus.spring.spring11.domain.Genre;
 import ru.otus.spring.spring11.repository.AuthorRepository;
 import ru.otus.spring.spring11.repository.BookRepository;
 import ru.otus.spring.spring11.repository.GenreRepository;
 import ru.otus.spring.spring11.rest.dto.AuthorDto;
 import ru.otus.spring.spring11.rest.dto.BookDto;
+import ru.otus.spring.spring11.rest.dto.CommentDto;
 import ru.otus.spring.spring11.rest.dto.GenreDto;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -44,53 +49,26 @@ public class BookController {
     }
 
     @PostMapping("/api/book")
-    public Mono<Book> add(@RequestBody BookDto bookDto) {
-        Mono<Author> authorMono=authorRepository.findById(bookDto.getAuthor().getId());
-        Mono<Genre> genreMono=genreRepository.findById(bookDto.getGenre().getId());
-        Mono<Tuple2<Author,Genre>> tuple2Mono=Mono.zip(authorMono,genreMono);
-        Book b=new Book(bookDto.getName(),new Genre(bookDto.getGenre().getId(),bookDto.getGenre().getName()), new Author(bookDto.getAuthor().getId(),bookDto.getAuthor().getName()), Collections.emptyList());
+    public Mono<BookDto> add(@RequestBody Mono<BookDto> bookDtoMono) {
+        return bookDtoMono.map(bookDto -> {
 
-        tuple2Mono.map(t->{
-            Author a=t.getT1();
-            Genre g=t.getT2();
-            b.setAuthor(a);
-            b.setGenre(g);
-            bookRepository.save(b);
-            return b;
-        });
-
-
-/*
-        return bookDtoMono.map(bookDto->{
-            Book b=new Book(bookDto.getName(),new Genre(bookDto.getGenre().getId(),bookDto.getGenre().getName()), new Author(bookDto.getAuthor().getId(),bookDto.getAuthor().getName()), Collections.emptyList());
+            Book b=new Book(bookDto.getName(),null,null, Collections.emptyList());
             Mono<Author> authorMono=authorRepository.findById(bookDto.getAuthor().getId());
             Mono<Genre> genreMono=genreRepository.findById(bookDto.getGenre().getId());
-            Mono<Tuple2<Author,Genre>> tuple2Mono=Mono.zip(authorMono,genreMono);
-            tuple2Mono.map(t->{
+            Mono<Book> bM=Mono.just(b);
+            Mono<Tuple3<Author,Genre,Book>> tuple3Mono=Mono.zip(authorMono,genreMono,bM);
+
+            Mono<Book> rr=tuple3Mono.map(t->{
                 Author a=t.getT1();
                 Genre g=t.getT2();
-                b.setAuthor(a);
-                b.setGenre(g);
-                bookRepository.save(b);
-                return b;
+                Book bi=t.getT3();
+                bi.setAuthor(a);
+                bi.setGenre(g);
+                return bi;
             });
-*/
-            /*
-            Mono<Author> authorMono=authorRepository.findById(bookDto.getAuthor().getId());
-            Mono<Genre> genreMono=genreRepository.findById(bookDto.getGenre().getId());
-            Mono<Tuple2<Author,Genre>> tuple2Mono=Mono.zip(authorMono,genreMono);
-            return tuple2Mono.map(t->{
-               Author a=t.getT1();
-               Genre g=t.getT2();
-               Book b=new Book(bookDto.getName(),g,a,Collections.emptyList());
-               bookRepository.save(b);
-               return b;
-            });*/
+            return rr;
 
-        /*
-        return bookDto.map(dto -> this.toDomain(dto) ).flatMap(book -> {
-            return bookRepository.save(book);
-        }).map(book -> this.toDto(book));*/
+        }).flatMap(b-> b.flatMap(bv-> bookRepository.save(bv))).map(book -> this.toDto(book));
     }
 
     @PutMapping("/api/book/{id}")
@@ -113,11 +91,13 @@ public class BookController {
 
 
     private BookDto toDto(Book book){
-        return new BookDto(book.getId(),book.getName(),new AuthorDto(book.getAuthor().getId(),book.getAuthor().getName()),new GenreDto(book.getGenre().getId(),book.getGenre().getName()));
+        List<CommentDto> commentDtos=book.getCommentList().stream().map(c -> new CommentDto(c.getId(),c.getData())).collect(Collectors.toList());
+        return new BookDto(book.getId(),book.getName(),new AuthorDto(book.getAuthor().getId(),book.getAuthor().getName()),new GenreDto(book.getGenre().getId(),book.getGenre().getName()),commentDtos);
     }
 
     private Book toDomain(BookDto bookDto){
-        return new Book(bookDto.getName(),new Genre(bookDto.getGenre().getId(),bookDto.getGenre().getName()), new Author(bookDto.getAuthor().getId(),bookDto.getAuthor().getName()), Collections.emptyList());
+        List<Comment> comments=bookDto.getComments().stream().map(c -> new Comment(c.getData())).collect(Collectors.toList());
+        return new Book(bookDto.getName(),new Genre(bookDto.getGenre().getId(),bookDto.getGenre().getName()), new Author(bookDto.getAuthor().getId(),bookDto.getAuthor().getName()), comments);
     }
 
 
