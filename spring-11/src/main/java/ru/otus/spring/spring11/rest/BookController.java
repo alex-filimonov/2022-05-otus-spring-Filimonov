@@ -58,7 +58,7 @@ public class BookController {
             Mono<Book> bM=Mono.just(b);
             Mono<Tuple3<Author,Genre,Book>> tuple3Mono=Mono.zip(authorMono,genreMono,bM);
 
-            Mono<Book> rr=tuple3Mono.map(t->{
+            return tuple3Mono.map(t->{
                 Author a=t.getT1();
                 Genre g=t.getT2();
                 Book bi=t.getT3();
@@ -66,8 +66,6 @@ public class BookController {
                 bi.setGenre(g);
                 return bi;
             });
-            return rr;
-
         }).flatMap(b-> b.flatMap(bv-> bookRepository.save(bv))).map(book -> this.toDto(book));
     }
 
@@ -87,6 +85,12 @@ public class BookController {
             bookRepository.save(b);
             return b;
         }).map(book -> this.toDto(book));
+    }
+
+    @DeleteMapping("/api/book/{id}")
+    public void delete(@PathVariable String id){
+        Mono<Book> bookMono=bookRepository.findById(id);
+        bookMono.map(b->bookRepository.delete(b));
     }
 
 
