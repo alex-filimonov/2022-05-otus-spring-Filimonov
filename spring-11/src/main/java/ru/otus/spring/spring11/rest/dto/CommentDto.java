@@ -5,9 +5,9 @@ import ru.otus.spring.spring11.domain.Comment;
 
 @Data
 public class CommentDto {
-    private int id;
+    private String id;
     private String data;
-    public CommentDto(int id, String data){
+    public CommentDto(String id, String data){
         this.id=id;
         this.data=data;
     }

@@ -12,6 +12,7 @@ import ru.otus.spring.spring11.domain.Comment;
 import ru.otus.spring.spring11.domain.Genre;
 import ru.otus.spring.spring11.repository.AuthorRepository;
 import ru.otus.spring.spring11.repository.BookRepository;
+import ru.otus.spring.spring11.repository.CommentRepository;
 import ru.otus.spring.spring11.repository.GenreRepository;
 import ru.otus.spring.spring11.rest.dto.AuthorDto;
 import ru.otus.spring.spring11.rest.dto.BookDto;
@@ -29,13 +30,15 @@ public class BookController {
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
     private GenreRepository genreRepository;
+    private CommentRepository commentRepository;
 
 
 
-    public BookController(BookRepository bookRepository, AuthorRepository authorRepository, GenreRepository genreRepository){
+    public BookController(BookRepository bookRepository, AuthorRepository authorRepository, GenreRepository genreRepository, CommentRepository commentRepository){
         this.bookRepository=bookRepository;
         this.authorRepository=authorRepository;
         this.genreRepository=genreRepository;
+        this.commentRepository=commentRepository;
     }
 
     @GetMapping("/api/books")
@@ -88,9 +91,9 @@ public class BookController {
     }
 
     @DeleteMapping("/api/book/{id}")
-    public void delete(@PathVariable String id){
+    public Mono<Void> delete(@PathVariable String id){
         Mono<Book> bookMono=bookRepository.findById(id);
-        bookMono.map(b->bookRepository.delete(b));
+        return bookMono.flatMap(b->bookRepository.delete(b));
     }
 
 

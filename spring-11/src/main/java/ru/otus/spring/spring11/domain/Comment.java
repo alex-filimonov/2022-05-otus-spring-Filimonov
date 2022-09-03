@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 public class Comment {
 
     @Id
-    private int id;
+    private String id;
     private String data;
 
     public Comment(String data){

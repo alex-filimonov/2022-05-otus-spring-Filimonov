@@ -15,7 +15,7 @@ const CommentEdit = () => {
 
     useEffect(() => {
         if (id !== 'new') {
-            fetch(`/api/comment/${id}`)
+            fetch(`/api/comment/${bookId}/${id}`)
                 .then(response => response.json())
                 .then(data => setComment(data));
         }

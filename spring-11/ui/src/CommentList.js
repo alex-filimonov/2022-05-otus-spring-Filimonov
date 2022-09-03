@@ -21,8 +21,8 @@ const CommentList = () => {
             })
     }, [id]);
 
-    const remove = async (id) => {
-        await fetch(`/api/comment/${id}`, {
+    const remove = async (commentId) => {
+        await fetch(`/api/comment/${id}/${commentId}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
