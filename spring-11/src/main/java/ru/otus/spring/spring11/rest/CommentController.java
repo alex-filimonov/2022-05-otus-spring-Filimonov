@@ -12,73 +12,42 @@ import ru.otus.spring.spring11.domain.Genre;
 import ru.otus.spring.spring11.repository.BookRepository;
 import ru.otus.spring.spring11.repository.CommentRepository;
 import ru.otus.spring.spring11.rest.dto.CommentDto;
+import ru.otus.spring.spring11.service.CommentService;
 
 import java.util.List;
 
 @RestController
 public class CommentController {
-    private BookRepository bookRepository;
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
-    public CommentController(BookRepository bookRepository,CommentRepository commentRepository){
-        this.bookRepository=bookRepository;
-        this.commentRepository=commentRepository;
+
+    public CommentController(CommentService commentService){
+        this.commentService=commentService;
     }
 
     @GetMapping("/api/comments/{id}")
     public Flux<CommentDto> getComments(@PathVariable String id){
-        Mono<Book> bookMono=bookRepository.findById(id);
-        return bookMono.map(b-> b.getCommentList())
-                .flatMapMany(Flux::fromIterable)
-                .map(c->new CommentDto(c.getId(),c.getData()));
+        return commentService.getComments(id);
     }
 
     @GetMapping("/api/comment/{bookId}/{id}")
     public Mono<CommentDto> getComment(@PathVariable String bookId,@PathVariable String id){
-        return commentRepository.findById(id).map(c->new CommentDto(c.getId(),c.getData()));
+        return commentService.getComment(bookId,id);
     }
 
     @PostMapping("/api/comment/{id}")
     public Mono<CommentDto> add(@PathVariable String id, @RequestBody CommentDto commentDto){
-        Mono<Book> bookMono=bookRepository.findById(id);
-        Comment comment=new Comment(commentDto.getData());
-        Mono<Comment> commentMono=commentRepository.save(comment);
-        Mono<Tuple2<Book,Comment>> tuple2Mono=Mono.zip(bookMono,commentMono);
-        return tuple2Mono.flatMap(t->{
-            Book b=t.getT1();
-            Comment c=t.getT2();
-            b.getCommentList().add(c);
-            return bookRepository.save(b);
-        }).map(book -> book.getCommentList().get(book.getCommentList().size()-1)).map(c->new CommentDto(c.getId(),c.getData()));
+        return commentService.add(id,commentDto);
     }
 
     @PutMapping("/api/comment/{bookId}/{id}")
     public Mono<CommentDto> update(@PathVariable String bookId,@PathVariable String id,@RequestBody CommentDto commentDto){
-        Mono<Book> bookMono=bookRepository.findById(bookId);
-        Mono<Comment> commentMono=commentRepository.findById(id);
-        Mono<Tuple2<Book,Comment>> tuple2Mono=Mono.zip(bookMono,commentMono);
-        return tuple2Mono.flatMap(t->{
-            Book b=t.getT1();
-            Comment c=t.getT2();
-            c.setData(commentDto.getData());
-            b.getCommentList().stream().filter(it->it.getId().equals(c.getId())).findFirst().get().setData(commentDto.getData());
-            commentRepository.save(c);
-            return bookRepository.save(b);
-        }).map(book -> book.getCommentList().stream().filter(it->it.getId().equals(id)).findFirst().get()).map(c->new CommentDto(c.getId(),c.getData()));
+        return commentService.update(bookId,id,commentDto);
     }
 
     @DeleteMapping("/api/comment/{bookId}/{id}")
     public Mono<Book> delete(@PathVariable String bookId,@PathVariable String id){
-        Mono<Book> bookMono=bookRepository.findById(bookId);
-        Mono<Comment> commentMono=commentRepository.findById(id);
-        Mono<Tuple2<Book,Comment>> tuple2Mono=Mono.zip(bookMono,commentMono);
-        return tuple2Mono.flatMap(t->{
-            Book b=t.getT1();
-            Comment c=t.getT2();
-            b.getCommentList().removeIf(i->i.getId().equals(id));
-            commentRepository.delete(c);
-            return bookRepository.save(b);
-        });
+        return commentService.delete(bookId,id);
     }
 
 }
