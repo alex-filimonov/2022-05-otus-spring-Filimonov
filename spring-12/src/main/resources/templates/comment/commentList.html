@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{:: #home-main-content}
+                                               )}">
+<head>
+</head>
+<body>
+<div id="home-main-content">
+    <a href="..">return books list</a>
+    <h2>Comment list for book <p th:text="${book.getName()}"></p></h2>
+    <a href="./addComment" th:href="@{/addComment(bookId=${book.getId()})}">Add new comment</a>
+    <table>
+        <theader>
+            <tr>
+                <th>
+                    Comment
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </theader>
+        <tbody>
+            <tr th:each="commentItem : ${book.getCommentList()}">
+                <td th:text="${commentItem.getData()}">1</td>
+                <td>
+                    <a href="/editComment" th:href="@{/editComment(bookId=${book.getId()},commentId=${commentItem.getId()})}">Edit</a>,
+                    <a href="/confirmDeleteComment" th:href="@{/confirmDeleteComment(bookId=${book.getId()},commentId=${commentItem.getId()})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
