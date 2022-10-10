@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "books")
 @NamedEntityGraph(name = "book-genre-author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("genre"),@NamedAttributeNode("author"),@NamedAttributeNode("commentList")})
+        attributeNodes = {@NamedAttributeNode("genre"),@NamedAttributeNode("author")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +29,5 @@ public class Book {
     @OneToOne(targetEntity = Author.class, cascade = CascadeType.DETACH )
     @JoinColumn(name = "author_id")
     private Author author;
-
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "book_id")
-    private List<Comment> commentList;
 
 }

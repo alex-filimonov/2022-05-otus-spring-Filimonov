@@ -1,5 +1,15 @@
 package ru.otus.spring.spring13.service;
 
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.GrantedAuthoritySid;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.spring13.domain.Author;
 import ru.otus.spring.spring13.domain.Book;
@@ -7,24 +17,25 @@ import ru.otus.spring.spring13.domain.Genre;
 import ru.otus.spring.spring13.dto.BookDto;
 import ru.otus.spring.spring13.repository.AuthorRepository;
 import ru.otus.spring.spring13.repository.BookRepository;
-import ru.otus.spring.spring13.repository.CommentRepository;
 import ru.otus.spring.spring13.repository.GenreRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
     private GenreRepository genreRepository;
     private AuthorRepository authorRepository;
-    private CommentRepository commentRepository;
 
-    BookServiceImpl(BookRepository bookRepository, GenreRepository genreRepository, AuthorRepository authorRepository, CommentRepository commentRepository){
+    protected MutableAclService mutableAclService;
+
+    BookServiceImpl(BookRepository bookRepository, GenreRepository genreRepository, AuthorRepository authorRepository, MutableAclService mutableAclService){
         this.bookRepository=bookRepository;
         this.authorRepository=authorRepository;
         this.genreRepository=genreRepository;
-        this.commentRepository=commentRepository;
+        this.mutableAclService=mutableAclService;
     }
 
     @Override
@@ -34,7 +45,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findById(int id){
-        return bookRepository.findById(id).get();
+        Book book=bookRepository.findById(id);
+        return book;
     }
 
     @Override
@@ -46,7 +58,19 @@ public class BookServiceImpl implements BookService {
         book.setName(bookDto.getName());
         book.setAuthor(author);
         book.setGenre(genre);
-        return bookRepository.save(book);
+        Book newBook=bookRepository.save(book);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Sid owner = new PrincipalSid( authentication );
+        ObjectIdentity oid = new ObjectIdentityImpl( newBook.getClass(), newBook.getId() );
+
+        final Sid admin = new GrantedAuthoritySid("ROLE_ADMIN");
+        MutableAcl acl = mutableAclService.createAcl( oid );
+        acl.setOwner( owner );
+        acl.insertAce( acl.getEntries().size(), BasePermission.READ, admin, true );
+        acl.insertAce( acl.getEntries().size(), BasePermission.WRITE, admin, true );
+        mutableAclService.updateAcl( acl );
+
+        return newBook;
     }
 
 
@@ -55,7 +79,7 @@ public class BookServiceImpl implements BookService {
     public void update(BookDto bookDto){
         Author author=authorRepository.findById(bookDto.getAuthor().getId()).get();
         Genre genre=genreRepository.findById(bookDto.getGenre().getId()).get();
-        Book book=bookRepository.findById(bookDto.getId()).get();
+        Book book=bookRepository.findById(bookDto.getId());
         book.setName(bookDto.getName());
         book.setAuthor(author);
         book.setGenre(genre);
@@ -65,16 +89,8 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void delete(int bookId){
-        Book book=bookRepository.findById(bookId).get();
-//        book.getCommentList().forEach(c->commentRepository.deleteById(c.getId()));
+        Book book=bookRepository.findById(bookId);
         bookRepository.delete(book);
-        /*
-        bookRepository.findById(bookId).ifPresent(b->{
 
-            b.getCommentList().forEach(c->commentRepository.delete(c));
-            b.getCommentList().clear();
-            bookRepository.delete(b);
-        });
-*/
     }
 }
