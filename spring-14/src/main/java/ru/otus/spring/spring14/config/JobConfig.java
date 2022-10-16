@@ -39,7 +39,6 @@ public class JobConfig {
     private static final int CHUNK_SIZE = 5;
     private final Logger logger = LoggerFactory.getLogger("Batch");
 
-    public static final String INPUT_FILE_NAME = "inputFileName";
     public static final String IMPORT_USER_JOB_NAME = "importUserJob";
 
     @Autowired
@@ -56,7 +55,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public RepositoryItemReader<Star> reader(@Value("#{jobParameters['" + INPUT_FILE_NAME + "']}") String inputFileName){
+    public RepositoryItemReader<Star> reader(){
         Map<String, Sort.Direction> map = new HashMap<>();
         map.put("id", Sort.Direction.DESC);
         List<String> params = new ArrayList();
