@@ -1,0 +1,30 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 6e44c644f49fbcfa5d7d
+            clientSecret: 75d082321ea685688cceeffd83d90c4954739d28
+
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=LEGACY
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+server:
+  port: 8080
+
+logging:
+  level:
+    root: debug
