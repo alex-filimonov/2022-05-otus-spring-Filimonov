@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-fragment (mainContent)">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Book lib</title>
+        <link th:href="@{/css/reset.css}" rel="stylesheet"></link>
+        <link th:href="@{/css/main.css}" rel="stylesheet"></link>
+    </head>
+    <body>
+    <h1>Books Lib</h1>
+    <a href="/logout">Logout</a>
+
+    <article th:insert="${mainContent} ?: ~{}">
+    </article>
+
+    </body>
+</html>
