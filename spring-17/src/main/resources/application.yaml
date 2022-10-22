@@ -1,4 +1,18 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+
 spring:
+  jmx:
+    enabled: true
 
   main:
     allow-circular-references: true
@@ -13,3 +27,9 @@ spring:
 
 server:
   port: 8081
+
+logging:
+  file:
+    name: ./target/logs/main.log
+  level:
+    root: info
