@@ -9,6 +9,10 @@ management:
   health:
     defaults:
       enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 spring:
   jmx:
