@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{:: #home-main-content}
+                                               )}">
+<head>
+</head>
+<body>
+    <div id="home-main-content">
+        <h2>Add new book</h2>
+        <a href="..">return books list</a>
+        <form th:method="post" th:action="@{/addBook}" th:object="${book}">
+            <h3>Book Info:</h3>
+
+            <div class="row">
+                <label for="book-name-input">Name:</label>
+                <input id="book-name-input" name="name" type="text" value=""/>
+            </div>
+
+            <div class="row">
+                <label for="author.id">Name:</label>
+                <select id="author.id" name="author.id" >
+                    <option th:each="author: ${authorList}" th:value="${author.getId()}" th:text="${author.getName()}"></option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="genre.id">Name:</label>
+                <select  id="genre.id" name="genre.id">
+                    <option th:each="genre: ${genreList}" th:value="${genre.getId()}" th:text="${genre.getName()}"></option>
+                </select>
+            </div>
+
+            <div class="row">
+                <button type="submit">Save</button>
+                <a href="list.html" th:href="@{/}"><button type="button">Cancel</button></a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
