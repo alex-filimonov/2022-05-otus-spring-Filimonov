@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: rest-producer
+  shell:
+    interactive:
+      enable: true
+  main:
+    allow-circular-references: true
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: false
+
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include:*
+
+hystrix:
+  dashboard:
+    proxyStreamAllowList:*
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: headers
